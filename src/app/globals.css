@@ -1,0 +1,264 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f4efe4;
+  --color-paper-2: #ebe3d2;
+  --color-paper-3: #e2d9c5;
+  --color-ink: #16130e;
+  --color-ink-2: #4a4438;
+  --color-ink-3: #8b8477;
+  --color-rule: #d6ccb8;
+  --color-stamp: #c1361f;
+  --color-stamp-soft: #e8d3cd;
+  --color-ok: #2f6b4f;
+  --color-ok-soft: #d5e3d9;
+  --color-warn: #a6761d;
+  --color-warn-soft: #efe1c6;
+  --color-navy: #1f3b57;
+
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1;
+  overflow-x: hidden;
+}
+
+/* Fibrous paper grain over the whole panel */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/images/paper-grain.jpg");
+  background-size: 420px;
+  mix-blend-mode: multiply;
+  opacity: 0.32;
+  pointer-events: none;
+  z-index: 60;
+}
+
+::selection {
+  background: var(--color-stamp);
+  color: #fff;
+}
+
+/* ---------- ticket stub perforation ---------- */
+.perf-y {
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-paper) 0 3.2px,
+    transparent 3.4px
+  );
+  background-size: 100% 12px;
+  background-repeat: repeat-y;
+}
+
+.perf-x {
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-paper) 0 3.2px,
+    transparent 3.4px
+  );
+  background-size: 12px 100%;
+  background-repeat: repeat-x;
+}
+
+/* ---------- rubber stamp impression ---------- */
+.stamp-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 2.5px solid currentColor;
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  opacity: 0.92;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+  mask-image: radial-gradient(
+      circle at 20% 30%,
+      #000 0 60%,
+      transparent 61%
+    ),
+    linear-gradient(#000, #000);
+}
+
+@keyframes stamp-hit {
+  0% {
+    transform: rotate(-16deg) scale(2.1);
+    opacity: 0;
+  }
+  55% {
+    transform: rotate(-4deg) scale(0.94);
+    opacity: 1;
+  }
+  75% {
+    transform: rotate(-3.4deg) scale(1.04);
+  }
+  100% {
+    transform: rotate(-3deg) scale(1);
+    opacity: 0.92;
+  }
+}
+
+.animate-stamp {
+  animation: stamp-hit 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-row {
+  animation: row-in 0.34s ease-out both;
+}
+
+@keyframes slip-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) rotate(-0.6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-slip {
+  animation: slip-in 0.3s ease-out both;
+}
+
+/* ---------- form controls ---------- */
+.field {
+  width: 100%;
+  background: #fbf8f1;
+  border: 1.5px solid var(--color-rule);
+  border-radius: 2px;
+  padding: 0.6rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  color: var(--color-ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.field::placeholder {
+  color: var(--color-ink-3);
+}
+
+.field:focus {
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 3px rgb(22 19 14 / 0.09);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 2px;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: transform 0.12s, background 0.15s, color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-ink {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn-ink:hover {
+  background: #2c261d;
+}
+
+.btn-stamp {
+  background: var(--color-stamp);
+  color: #fff;
+}
+
+.btn-stamp:hover {
+  background: #a72c18;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-rule);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-ink);
+  background: rgb(22 19 14 / 0.05);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- misc ---------- */
+.hairline {
+  border-color: var(--color-rule);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger-row:hover {
+  background: rgb(22 19 14 / 0.035);
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.live-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
